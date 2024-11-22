@@ -1,3 +1,5 @@
+const { fetchTranslation } = require("./apiHandler");
+
 module.exports = {
   provider: "custom-api",
   name: "Custom API Translation Provider",
@@ -29,57 +31,39 @@ module.exports = {
         // Implement translation
 
         try {
-          console.log(options);
-          // destructuring options
           const { sourceLocale, targetLocale } = options;
           let text = options.text;
 
-          // validation if data exists or not
+          // validation
           if (!text) {
             return [];
           }
-
-          if (!sourceLocale || !targetLocale) {
-            throw new Error("source and target locale must be defined");
-          }
-
-          // if text is string, convert it to array
           if (typeof text === "string") {
             text = [text];
           }
 
-          const baseURL = apiURL;
-          const params = `target=${targetLocale}`;
-          const url = `${baseURL}?${params}`;
-
-          // store result
-          const translatedTexts = [];
-
-          // loop through these values
-          for (const singleText of text) {
-            try {
-              const response = await fetch(url, {
-                method: "POST",
-                body: singleText,
-              });
-
-              // check if response is ok
-              if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-              }
-              // return text
-              const data = await response.text();
-              if (data == "") {
-                throw new Error("No translation found");
-              }
-              translatedTexts.push(data);
-            } catch (error) {
-              console.error(`Failed to translate: "${singleText}"`);
-              console.error(error);
-              translatedTexts.push(singleText); // Fallback to original text on failure
-            }
+          // required fields
+          if (!sourceLocale || !targetLocale) {
+            throw new Error("source and target locale must be defined");
           }
 
+          // collect all promises
+          const translationPromises = text.map((singleText) => {
+            return fetchTranslation({
+              apiURL,
+              apiKey,
+              text: singleText,
+              targetLocale,
+              sourceLocale,
+            }).catch((error) => {
+              console.log(`Failed to translate: "${singleText}"`);
+              console.error(error);
+              return singleText; // Fallback to original text on failure
+            });
+          });
+
+          // execute all promises
+          const translatedTexts = await Promise.all(translationPromises);
           return translatedTexts;
         } catch (error) {
           throw new Error(`Translation failed: ${error.message}`);
