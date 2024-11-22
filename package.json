@@ -8,5 +8,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ksdhir/strapi-provider-translate-custom-api.git"
+  }
 }
