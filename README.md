@@ -24,18 +24,23 @@ yarn add strapi-provider-translate-custom-api
 
 ## Configuration
 
-To configure the plugin, you need to specify the custom translation endpoint in your Strapi configuration file (`config/plugins.js`).
+To configure the plugin, you need to specify the custom translation endpoint in your Strapi configuration file (`config/plugins.js`) after installing the `strapi-plugin-translate` package.
 
 Example:
 
 ```javascript
 module.exports = {
-  'translate': {
-    provider: 'custom-api',
-    providerOptions: {
-      url: 'https://your-custom-endpoint.com/translate',
+    // ...
+  translate: {
+    enabled: true,
+    config: {
+      provider: "custom-api",
+      providerOptions: {
+        apiURL: env("TRANSLATION_API_URL"),
+      },
     },
   },
+  // ...
 };
 ```
 
