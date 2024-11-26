@@ -10,16 +10,10 @@
 
 ## Installation
 
-Install the plugin using npm or yarn:
+Install the plugin using npm:
 
 ```bash
 npm install strapi-provider-translate-custom-api
-```
-
-or
-
-```bash
-yarn add strapi-provider-translate-custom-api
 ```
 
 ## Configuration
