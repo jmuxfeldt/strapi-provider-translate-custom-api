@@ -12,5 +12,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ksdhir/strapi-provider-translate-custom-api.git"
+  },
+  "dependencies": {
+    "is-html": "^3.1.0"
   }
 }

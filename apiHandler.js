@@ -1,3 +1,5 @@
+import isHtml from "is-html";
+
 const fetchTranslation = async ({
   apiURL,
   apiKey,
@@ -13,6 +15,10 @@ const fetchTranslation = async ({
 
   if (apiKey) {
     url += `&apiKey=${apiKey}`;
+  }
+
+  if (isHtml(text)) {
+    url += "&format=html";
   }
 
   try {
