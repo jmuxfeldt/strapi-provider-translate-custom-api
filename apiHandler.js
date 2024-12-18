@@ -1,5 +1,3 @@
-import isHtml from "is-html";
-
 const fetchTranslation = async ({
   apiURL,
   apiKey,
@@ -7,6 +5,9 @@ const fetchTranslation = async ({
   targetLocale,
   sourceLocale,
 }) => {
+  // dynamic import html
+  const isHTML = await import("is-html");
+  
   if (!apiURL || !text || !targetLocale) {
     throw new Error("API URL, text, and target locale must be provided");
   }
