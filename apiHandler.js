@@ -18,7 +18,7 @@ const fetchTranslation = async ({
     url += `&apiKey=${apiKey}`;
   }
 
-  if (isHtml(text)) {
+  if (isHTML(text)) {
     url += "&format=html";
   }
 
