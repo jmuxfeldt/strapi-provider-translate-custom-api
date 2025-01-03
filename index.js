@@ -36,7 +36,7 @@ module.exports = {
         // Implement translation
 
         try {
-          const { sourceLocale, targetLocale } = options;
+          let { sourceLocale, targetLocale } = options;
           let text = options.text;
 
           // validation
