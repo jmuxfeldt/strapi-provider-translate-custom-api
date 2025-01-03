@@ -1,5 +1,10 @@
 const { fetchTranslation } = require("./apiHandler");
 
+// provide fallbacks for services that don't support the target languages
+const fallbackLanguages = {
+  DeepL: [{ source: "es-419", fallback: "es" }],
+};
+
 module.exports = {
   provider: "custom-api",
   name: "Custom API Translation Provider",
@@ -12,7 +17,7 @@ module.exports = {
   init(providerOptions = {}, pluginConfig = {}) {
     // Do some setup here
     // todo add and use api key in future
-    const { apiURL, apiKey } = providerOptions;
+    const { apiURL, apiKey, translationProvider } = providerOptions;
 
     return {
       /**
@@ -45,6 +50,17 @@ module.exports = {
           // required fields
           if (!sourceLocale || !targetLocale) {
             throw new Error("source and target locale must be defined");
+          }
+
+          // check if the target language has a fallback
+          const fallbacks = fallbackLanguages[translationProvider];
+          if (fallbacks) {
+            const fallback = fallbacks.find(
+              (item) => item.source === targetLocale
+            );
+            if (fallback) {
+              targetLocale = fallback.fallback;
+            }
           }
 
           // collect all promises
