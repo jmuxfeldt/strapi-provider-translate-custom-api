@@ -81,7 +81,7 @@ module.exports = {
           // If we translated a block, convert the translated HTML back to blocks
           if (isBlock) {
 
-            let blocks = await formatService.htmlToBlock(translatedTexts[0]);
+            let blocks = await formatService.htmlToBlock(translatedTexts);
 
             // Always ensure blocks is an array
             if (!Array.isArray(blocks)) {
